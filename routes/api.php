@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -9,27 +10,30 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Endpoint untuk mengambil profil user yang sedang login (Sanctum)
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 /**
- * 1. AUTHENTICATION (MOCK)
- * Agar Krisna bisa simulasi Login/Register di Minggu ke-2
+ * 1. AUTHENTICATION (REAL & PROTECTED)
+ * Menggunakan Laravel Sanctum untuk keamanan asli.
  */
-Route::prefix('auth')->group(function () {
-    Route::post('/login', function (Request $request) {
+
+// Route Publik: Untuk pendaftaran dan login
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+// Route Terproteksi: Harus membawa Bearer Token
+Route::middleware('auth:sanctum')->group(function () {
+    
+    // Ambil data profil user yang sedang login
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+
+    // Proses Logout (Hapus Token)
+    Route::post('/logout', function (Request $request) {
+        $request->user()->currentAccessToken()->delete();
         return response()->json([
             'success' => true,
-            'message' => 'Login Berhasil (Simulasi)',
-            'token' => 'dummy_token_kodyakost_2026',
-            'user' => [
-                'id' => 1,
-                'name' => 'Made Aditya',
-                'role' => 'tenant', // Bisa 'tenant' atau 'owner'
-                'email' => 'made@example.com'
-            ]
+            'message' => 'Token berhasil dihapus, sesi berakhir.'
         ]);
     });
 });
