@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\KostController;
+
+Route::get('/kosts', [KostController::class, 'index']);
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +27,7 @@ Route::get('/mock-kosts', function () {
                 'longitude' => 115.23613,
                 'is_verified' => true,
                 'price_start' => 1200000,
-                'thumbnail' => 'https://placehold.co/600x400?text=Kos+Renon',
+                'thumbnail' => 'https://i.pinimg.com/1200x/05/3d/84/053d840fbf6bee58e6ebc2a3a34f4243.jpg',
                 'rooms' => [
                     [
                         'type' => 'VIP', 
@@ -58,7 +61,7 @@ Route::get('/mock-kosts', function () {
                 'longitude' => 115.228500,
                 'is_verified' => true,
                 'price_start' => 900000,
-                'thumbnail' => 'https://placehold.co/600x400?text=Kos+Sidakarya',
+                'thumbnail' => 'https://i.pinimg.com/1200x/ec/d3/3f/ecd33fdd4433b85396c6055c77716693.jpg',
                 'rooms' => [
                     [
                         'type' => 'Economy', 
@@ -81,7 +84,7 @@ Route::get('/mock-kosts', function () {
                 'longitude' => 115.249074,
                 'is_verified' => false,
                 'price_start' => 1500000,
-                'thumbnail' => 'https://placehold.co/600x400?text=Kos+Gatsu',
+                'thumbnail' => 'https://i.pinimg.com/736x/a0/65/c7/a065c7ce59945c5cdb8d96fbf3728ba8.jpg',
                 'rooms' => [
                     [
                         'type' => 'Standard AC', 
@@ -129,7 +132,7 @@ Route::get('/mock-kosts', function () {
                 'longitude' => 115.2631,
                 'is_verified' => true,
                 'price_start' => 3000000,
-                'thumbnail' => 'https://placehold.co/600x400?text=Kos+Sanur',
+                'thumbnail' => 'https://i.pinimg.com/1200x/2d/e1/54/2de15440526e86459a9bc68756394b7a.jpg',
                 'rooms' => [
                     [
                         'type' => 'Deluxe', 
