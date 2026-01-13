@@ -108,7 +108,7 @@ Route::get('/mock-kosts', function () {
                 'longitude' => 115.200000,
                 'is_verified' => true,
                 'price_start' => 1800000,
-                'thumbnail' => 'https://placehold.co/600x400?text=Kos+Teuku+Umar',
+                'thumbnail' => 'https://i.pinimg.com/1200x/94/2e/65/942e65f6f0f68b5a1ea363f294a3f58d.jpg',
                 'rooms' => [
                     [
                         'type' => 'Studio Suite', 
