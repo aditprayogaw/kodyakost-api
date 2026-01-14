@@ -24,7 +24,7 @@ class Kost extends Model
     ];
 
     /**
-     * Relasi: Kost dimiliki oleh satu User (Owner)[cite: 183].
+     * Relasi: Kost dimiliki oleh satu User (Owner)
      */
     public function owner(): BelongsTo
     {
@@ -32,7 +32,7 @@ class Kost extends Model
     }
 
     /**
-     * Relasi: Kost memiliki banyak tipe kamar (Rooms)[cite: 194, 197].
+     * Relasi: Kost memiliki banyak tipe kamar (Rooms)
      */
     public function rooms(): HasMany
     {

@@ -17,10 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            // TAMBAHKAN DUA BARIS INI:
             $table->enum('role', ['admin', 'owner', 'tenant'])->default('tenant');
             $table->string('phone_whatsapp')->nullable();
-            
+            $table->string('avatar')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

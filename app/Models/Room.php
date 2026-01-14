@@ -26,4 +26,9 @@ class Room extends Model
     {
         return $this->belongsTo(Kost::class);
     }
+
+    public function facilities()
+    {
+        return $this->belongsToMany(Facility::class);
+    }
 }
