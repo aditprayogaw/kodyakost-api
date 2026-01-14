@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Room extends Model
 {
@@ -19,8 +20,15 @@ class Room extends Model
         'room_size',
     ];
 
+    public function getImageUrlAttribute() {
+        if (!$this->image) return 'https://placehold.co/400x300?text=No+Room+Image';
+        return str_starts_with($this->image, 'http') 
+            ? $this->image 
+            : asset('storage/' . $this->image);
+    }
+
     /**
-     * Relasi: Room dimiliki oleh satu Kost [cite: 194].
+     * Relasi: Room dimiliki oleh satu Kost.
      */
     public function kost(): BelongsTo
     {
@@ -30,5 +38,10 @@ class Room extends Model
     public function facilities()
     {
         return $this->belongsToMany(Facility::class);
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(RoomImage::class);
     }
 }

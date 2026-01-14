@@ -29,7 +29,8 @@ class KostSeeder extends Seeder
             'village' => 'Panjer',
             'latitude' => -8.675000,
             'longitude' => 115.234000,
-            'is_verified' => true
+            'is_verified' => true,
+            'thumbnail' => 'https://i.pinimg.com/736x/20/6e/e8/206ee8503c87ee66394c1eae81d56885.jpg',
         ]);
 
         // Tambah Kamar untuk Kos 1
@@ -40,6 +41,12 @@ class KostSeeder extends Seeder
             'total_rooms' => 10,
             'available_rooms' => 3,
             'room_size' => '4x4'
+        ]);
+
+        $room1->images()->createMany([
+            ['image_path' => 'https://i.pinimg.com/736x/58/bf/af/58bfafa0ad1588e72bd3367254737960.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/1200x/af/6c/53/af6c53270ec27e3892cbfad02c961ebf.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/736x/1c/60/ca/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg'], 
         ]);
         // Hubungkan ke fasilitas (AC, WiFi, KM Dalam)
         $room1->facilities()->attach($allFacilities->whereIn('name', ['AC', 'WiFi', 'Kamar Mandi Dalam'])->pluck('id'));
@@ -55,7 +62,8 @@ class KostSeeder extends Seeder
             'village' => 'Sumerta Kelod',
             'latitude' => -8.670000,
             'longitude' => 115.245000,
-            'is_verified' => true
+            'is_verified' => true,
+            'thumbnail' => 'https://i.pinimg.com/736x/6f/66/f7/6f66f782f4b4fb3fab18ce2f6d3e3857.jpg',
         ]);
 
         // Tambah Kamar untuk Kos 2
@@ -67,6 +75,13 @@ class KostSeeder extends Seeder
             'available_rooms' => 5,
             'room_size' => '3x3'
         ]);
+
+        $room2->images()->createMany([
+            ['image_path' => 'https://i.pinimg.com/736x/58/bf/af/58bfafa0ad1588e72bd3367254737960.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/1200x/af/6c/53/af6c53270ec27e3892cbfad02c961ebf.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/736x/1c/60/ca/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg'], 
+        ]);
+
         $room2->facilities()->attach($allFacilities->whereIn('name', ['WiFi', 'Lemari', 'Meja Belajar'])->pluck('id'));
 
 
@@ -80,7 +95,8 @@ class KostSeeder extends Seeder
             'village' => 'Dauh Puri',
             'latitude' => -8.678000,
             'longitude' => 115.210000,
-            'is_verified' => false
+            'is_verified' => true,
+            'thumbnail' => 'https://i.pinimg.com/736x/20/6e/e8/206ee8503c87ee66394c1eae81d56885.jpg',
         ]);
 
         // Tambah Kamar untuk Kos 3
@@ -92,6 +108,13 @@ class KostSeeder extends Seeder
             'available_rooms' => 0, // Full
             'room_size' => '3x4'
         ]);
+
+        $room3->images()->createMany([
+            ['image_path' => 'https://i.pinimg.com/736x/58/bf/af/58bfafa0ad1588e72bd3367254737960.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/1200x/af/6c/53/af6c53270ec27e3892cbfad02c961ebf.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/736x/1c/60/ca/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg'], 
+        ]);
+
         $room3->facilities()->attach($allFacilities->whereIn('name', ['AC', 'WiFi', 'Laundry'])->pluck('id'));
 
         // DATA KOS 4: Denpasar Utara (Padangsambian)
@@ -104,7 +127,8 @@ class KostSeeder extends Seeder
             'village' => 'Padangsambian',
             'latitude' => -8.650000,
             'longitude' => 115.220000,
-            'is_verified' => true
+            'is_verified' => true,
+            'thumbnail' => 'https://i.pinimg.com/736x/6f/66/f7/6f66f782f4b4fb3fab18ce2f6d3e3857.jpg',
         ]);
         // Tambah Kamar untuk Kos 4
         $room4 = Room::create([
@@ -115,6 +139,13 @@ class KostSeeder extends Seeder
             'available_rooms' => 4,
             'room_size' => '4x3'
         ]);
+
+        $room4->images()->createMany([
+            ['image_path' => 'https://i.pinimg.com/736x/58/bf/af/58bfafa0ad1588e72bd3367254737960.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/1200x/af/6c/53/af6c53270ec27e3892cbfad02c961ebf.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/736x/1c/60/ca/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg'], 
+        ]);
+
         $room4->facilities()->attach($allFacilities->whereIn('name', ['AC', 'Dapur', 'Parkir'])->pluck('id'));
 
         // DATA KOS 5: Denpasar Selatan (Sanur)
@@ -127,7 +158,8 @@ class KostSeeder extends Seeder
             'village' => 'Sanur',
             'latitude' => -8.680000,
             'longitude' => 115.250000,
-            'is_verified' => false
+            'is_verified' => true,
+            'thumbnail' => 'https://i.pinimg.com/736x/20/6e/e8/206ee8503c87ee66394c1eae81d56885.jpg',
         ]);
         // Tambah Kamar untuk Kos 5
         $room5 = Room::create([
@@ -136,8 +168,15 @@ class KostSeeder extends Seeder
             'price_per_month' => 1000000,
             'total_rooms' => 20,
             'available_rooms' => 10,
-            'room_size' => '3x3'
+            'room_size' => '3x3',
         ]);
+
+        $room5->images()->createMany([
+            ['image_path' => 'https://i.pinimg.com/736x/58/bf/af/58bfafa0ad1588e72bd3367254737960.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/1200x/af/6c/53/af6c53270ec27e3892cbfad02c961ebf.jpg'], 
+            ['image_path' => 'https://i.pinimg.com/736x/1c/60/ca/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg'], 
+        ]);
+
         $room5->facilities()->attach($allFacilities->whereIn('name', ['WiFi', 'Kamar Mandi Dalam', 'Meja Belajar'])->pluck('id'));
     }
 }

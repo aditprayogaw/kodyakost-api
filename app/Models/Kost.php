@@ -23,6 +23,13 @@ class Kost extends Model
         'is_verified',
     ];
 
+    public function getThumbnailUrlAttribute() {
+        if (!$this->thumbnail) return 'https://placehold.co/600x400?text=No+Image';
+        return str_starts_with($this->thumbnail, 'http') 
+            ? $this->thumbnail 
+            : asset('storage/' . $this->thumbnail);
+    }
+
     /**
      * Relasi: Kost dimiliki oleh satu User (Owner)
      */
@@ -37,5 +44,10 @@ class Kost extends Model
     public function rooms(): HasMany
     {
         return $this->hasMany(Room::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

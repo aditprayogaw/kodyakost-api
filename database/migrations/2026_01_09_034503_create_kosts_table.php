@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); 
             $table->string('name');
+            $table->string('thumbnail')->nullable();
             $table->text('description'); 
             $table->text('address'); 
             $table->enum('district', ['Denpasar Barat', 'Denpasar Timur', 'Denpasar Utara', 'Denpasar Selatan']); 

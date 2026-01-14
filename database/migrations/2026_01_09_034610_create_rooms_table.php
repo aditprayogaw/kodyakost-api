@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('kost_id')->constrained('kosts')->onDelete('cascade'); 
             $table->string('room_type'); 
+            $table->string('image')->nullable();
             $table->integer('price_per_month'); 
             $table->integer('total_rooms');
             $table->integer('available_rooms'); 

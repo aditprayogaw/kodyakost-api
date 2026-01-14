@@ -12,7 +12,12 @@ class KostController extends Controller
     public function index(Request $request)
     {   
         // 1. Mulai query dengan eager loading
-        $query = Kost::with('rooms.facilities')->where('is_verified', true);
+        $query = Kost::with('rooms.facilities', 'rooms.images', 'user')->where('is_verified', true);
+
+        // --- FITUR: SORTING ---
+        // Mengurutkan berdasarkan status verifikasi (true dulu), 
+        // lalu berdasarkan tanggal dibuat (terbaru di atas)
+        $query->orderBy('is_verified', 'desc')->latest();
 
         // 2. Filter berdasarkan district jika ada di query params
         if ($request->has('district')) {
@@ -23,5 +28,11 @@ class KostController extends Controller
         $kosts = $query->get();
 
         return KostResource::collection($kosts);
+    }
+
+    public function show($id)
+    {
+        $kost = Kost::with('rooms.images', 'rooms.facilities', 'user')->findOrFail($id);
+        return new KostResource($kost);
     }
 }

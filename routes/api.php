@@ -22,7 +22,7 @@ Route::post('/login', [AuthController::class, 'login']);
 | 2. PUBLIC DATA 
 */
 Route::get('/kosts', [KostController::class, 'index']);
-
+Route::get('/kosts/{id}', [KostController::class, 'show']);
 
 /*
 | 3. PROTECTED ROUTES 
