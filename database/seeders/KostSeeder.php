@@ -93,5 +93,51 @@ class KostSeeder extends Seeder
             'room_size' => '3x4'
         ]);
         $room3->facilities()->attach($allFacilities->whereIn('name', ['AC', 'WiFi', 'Laundry'])->pluck('id'));
+
+        // DATA KOS 4: Denpasar Utara (Padangsambian)
+        $kost4 = Kost::create([
+            'user_id' => $owner->id,
+            'name' => 'Padangsambian Cozy Kost',
+            'description' => 'Dekat dengan kampus ISI dan fasilitas umum.',
+            'address' => 'Jl. Padangsambian Kangin No. 45',
+            'district' => 'Denpasar Utara',
+            'village' => 'Padangsambian',
+            'latitude' => -8.650000,
+            'longitude' => 115.220000,
+            'is_verified' => true
+        ]);
+        // Tambah Kamar untuk Kos 4
+        $room4 = Room::create([
+            'kost_id' => $kost4->id,
+            'room_type' => 'Deluxe',
+            'price_per_month' => 1800000,
+            'total_rooms' => 12,
+            'available_rooms' => 4,
+            'room_size' => '4x3'
+        ]);
+        $room4->facilities()->attach($allFacilities->whereIn('name', ['AC', 'Dapur', 'Parkir'])->pluck('id'));
+
+        // DATA KOS 5: Denpasar Selatan (Sanur)
+        $kost5 = Kost::create([
+            'user_id' => $owner->id,
+            'name' => 'Sanur Beach Kost',
+            'description' => 'Suasana pantai yang menenangkan, cocok untuk mahasiswa.',
+            'address' => 'Jl. Danau Tamblingan No. 88',
+            'district' => 'Denpasar Selatan',
+            'village' => 'Sanur',
+            'latitude' => -8.680000,
+            'longitude' => 115.250000,
+            'is_verified' => false
+        ]);
+        // Tambah Kamar untuk Kos 5
+        $room5 = Room::create([
+            'kost_id' => $kost5->id,
+            'room_type' => 'Standard',
+            'price_per_month' => 1000000,
+            'total_rooms' => 20,
+            'available_rooms' => 10,
+            'room_size' => '3x3'
+        ]);
+        $room5->facilities()->attach($allFacilities->whereIn('name', ['WiFi', 'Kamar Mandi Dalam', 'Meja Belajar'])->pluck('id'));
     }
 }
