@@ -1,0 +1,621 @@
+name: Endpoints
+description: ''
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/register
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        custom: []
+        name: name
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: b
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      email:
+        custom: []
+        name: email
+        description: 'Must be a valid email address. Must not be greater than 255 characters.'
+        required: true
+        example: zbailey@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      password:
+        custom: []
+        name: password
+        description: 'Must be at least 8 characters.'
+        required: true
+        example: '-0pBNvYgxw'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      role:
+        custom: []
+        name: role
+        description: ''
+        required: true
+        example: owner
+        type: string
+        enumValues:
+          - tenant
+          - owner
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      phone_whatsapp:
+        custom: []
+        name: phone_whatsapp
+        description: ''
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      name: b
+      email: zbailey@example.net
+      password: '-0pBNvYgxw'
+      role: owner
+      phone_whatsapp: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/login
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/kosts
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"data":[{"id":1,"name":"D''Panjer Residence","description":"Kos eksklusif dekat kampus UNUD Sudirman.","location":{"address":"Jl. Tukad Pakerisan No. 99","district":"Denpasar Selatan","village":"Panjer","latitude":-8.675,"longitude":115.234},"is_verified":true,"owner":{"name":"Krisna Owner","whatsapp":"628123456789"},"thumbnail":"https:\/\/i.pinimg.com\/736x\/20\/6e\/e8\/206ee8503c87ee66394c1eae81d56885.jpg","price_start":2000000,"rooms":[{"type":"VIP","gallery":["https:\/\/i.pinimg.com\/736x\/58\/bf\/af\/58bfafa0ad1588e72bd3367254737960.jpg","https:\/\/i.pinimg.com\/1200x\/af\/6c\/53\/af6c53270ec27e3892cbfad02c961ebf.jpg","https:\/\/i.pinimg.com\/736x\/1c\/60\/ca\/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg"],"price":2000000,"available":3,"is_room_available":true,"size":"4x4","facilities":[{"name":"AC","icon":"ac-icon"},{"name":"WiFi","icon":"wifi-icon"},{"name":"Kamar Mandi Dalam","icon":"bathroom-icon"}]}]},{"id":2,"name":"Renon Garden Kost","description":"Lingkungan tenang, dekat dengan Lapangan Niti Mandala.","location":{"address":"Jl. Raya Puputan Gang IV","district":"Denpasar Timur","village":"Sumerta Kelod","latitude":-8.67,"longitude":115.245},"is_verified":true,"owner":{"name":"Krisna Owner","whatsapp":"628123456789"},"thumbnail":"https:\/\/i.pinimg.com\/736x\/6f\/66\/f7\/6f66f782f4b4fb3fab18ce2f6d3e3857.jpg","price_start":1200000,"rooms":[{"type":"Standard","gallery":["https:\/\/i.pinimg.com\/736x\/58\/bf\/af\/58bfafa0ad1588e72bd3367254737960.jpg","https:\/\/i.pinimg.com\/1200x\/af\/6c\/53\/af6c53270ec27e3892cbfad02c961ebf.jpg","https:\/\/i.pinimg.com\/736x\/1c\/60\/ca\/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg"],"price":1200000,"available":5,"is_room_available":true,"size":"3x3","facilities":[{"name":"WiFi","icon":"wifi-icon"},{"name":"Lemari","icon":"wardrobe-icon"},{"name":"Meja Belajar","icon":"desk-icon"}]}]},{"id":3,"name":"Teuku Umar Stay","description":"Akses mudah ke pusat perbelanjaan dan kuliner.","location":{"address":"Jl. Teuku Umar No. 10","district":"Denpasar Barat","village":"Dauh Puri","latitude":-8.678,"longitude":115.21},"is_verified":true,"owner":{"name":"Krisna Owner","whatsapp":"628123456789"},"thumbnail":"https:\/\/i.pinimg.com\/736x\/20\/6e\/e8\/206ee8503c87ee66394c1eae81d56885.jpg","price_start":1500000,"rooms":[{"type":"Standard AC","gallery":["https:\/\/i.pinimg.com\/736x\/58\/bf\/af\/58bfafa0ad1588e72bd3367254737960.jpg","https:\/\/i.pinimg.com\/1200x\/af\/6c\/53\/af6c53270ec27e3892cbfad02c961ebf.jpg","https:\/\/i.pinimg.com\/736x\/1c\/60\/ca\/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg"],"price":1500000,"available":0,"is_room_available":false,"size":"3x4","facilities":[{"name":"AC","icon":"ac-icon"},{"name":"WiFi","icon":"wifi-icon"},{"name":"Laundry","icon":"laundry-icon"}]}]},{"id":4,"name":"Padangsambian Cozy Kost","description":"Dekat dengan kampus ISI dan fasilitas umum.","location":{"address":"Jl. Padangsambian Kangin No. 45","district":"Denpasar Utara","village":"Padangsambian","latitude":-8.65,"longitude":115.22},"is_verified":true,"owner":{"name":"Krisna Owner","whatsapp":"628123456789"},"thumbnail":"https:\/\/i.pinimg.com\/736x\/6f\/66\/f7\/6f66f782f4b4fb3fab18ce2f6d3e3857.jpg","price_start":1800000,"rooms":[{"type":"Deluxe","gallery":["https:\/\/i.pinimg.com\/736x\/58\/bf\/af\/58bfafa0ad1588e72bd3367254737960.jpg","https:\/\/i.pinimg.com\/1200x\/af\/6c\/53\/af6c53270ec27e3892cbfad02c961ebf.jpg","https:\/\/i.pinimg.com\/736x\/1c\/60\/ca\/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg"],"price":1800000,"available":4,"is_room_available":true,"size":"4x3","facilities":[{"name":"AC","icon":"ac-icon"},{"name":"Dapur","icon":"kitchen-icon"},{"name":"Parkir","icon":"parking-icon"}]}]},{"id":5,"name":"Sanur Beach Kost","description":"Suasana pantai yang menenangkan, cocok untuk mahasiswa.","location":{"address":"Jl. Danau Tamblingan No. 88","district":"Denpasar Selatan","village":"Sanur","latitude":-8.68,"longitude":115.25},"is_verified":true,"owner":{"name":"Krisna Owner","whatsapp":"628123456789"},"thumbnail":"https:\/\/i.pinimg.com\/736x\/20\/6e\/e8\/206ee8503c87ee66394c1eae81d56885.jpg","price_start":1000000,"rooms":[{"type":"Standard","gallery":["https:\/\/i.pinimg.com\/736x\/58\/bf\/af\/58bfafa0ad1588e72bd3367254737960.jpg","https:\/\/i.pinimg.com\/1200x\/af\/6c\/53\/af6c53270ec27e3892cbfad02c961ebf.jpg","https:\/\/i.pinimg.com\/736x\/1c\/60\/ca\/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg"],"price":1000000,"available":10,"is_room_available":true,"size":"3x3","facilities":[{"name":"WiFi","icon":"wifi-icon"},{"name":"Kamar Mandi Dalam","icon":"bathroom-icon"},{"name":"Meja Belajar","icon":"desk-icon"}]}]}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/kosts/{id}'
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the kost.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"data":{"id":1,"name":"D''Panjer Residence","description":"Kos eksklusif dekat kampus UNUD Sudirman.","location":{"address":"Jl. Tukad Pakerisan No. 99","district":"Denpasar Selatan","village":"Panjer","latitude":-8.675,"longitude":115.234},"is_verified":true,"owner":{"name":"Krisna Owner","whatsapp":"628123456789"},"thumbnail":"https:\/\/i.pinimg.com\/736x\/20\/6e\/e8\/206ee8503c87ee66394c1eae81d56885.jpg","price_start":2000000,"rooms":[{"type":"VIP","gallery":["https:\/\/i.pinimg.com\/736x\/58\/bf\/af\/58bfafa0ad1588e72bd3367254737960.jpg","https:\/\/i.pinimg.com\/1200x\/af\/6c\/53\/af6c53270ec27e3892cbfad02c961ebf.jpg","https:\/\/i.pinimg.com\/736x\/1c\/60\/ca\/1c60ca5c8b0cf0e6b58d07e4f8d742fa.jpg"],"price":2000000,"available":3,"is_room_available":true,"size":"4x4","facilities":[{"name":"AC","icon":"ac-icon"},{"name":"WiFi","icon":"wifi-icon"},{"name":"Kamar Mandi Dalam","icon":"bathroom-icon"}]}]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/facilities
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":[{"id":1,"name":"AC","icon":"ac-icon","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"},{"id":2,"name":"WiFi","icon":"wifi-icon","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"},{"id":3,"name":"Kamar Mandi Dalam","icon":"bathroom-icon","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"},{"id":4,"name":"Dapur","icon":"kitchen-icon","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"},{"id":5,"name":"Parkir","icon":"parking-icon","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"},{"id":6,"name":"Laundry","icon":"laundry-icon","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"},{"id":7,"name":"Lemari","icon":"wardrobe-icon","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"},{"id":8,"name":"Meja Belajar","icon":"desk-icon","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/cultural-events
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":[{"id":1,"event_name":"Pawai Ogoh-ogoh (Pengerupukan)","event_type":"pawai","description":"Penutupan jalan total di sekitar Catur Muka.","latitude":"-8.67012345","longitude":"115.21234567","severity":"high","event_date":"2026-03-20","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"},{"id":2,"event_name":"Upacara Melasti di Pantai Sanur","event_type":"upacara_adat","description":"Penutupan jalan menuju Pantai Sanur selama upacara berlangsung.","latitude":"-8.68812345","longitude":"115.25876543","severity":"low","event_date":"2026-04-10","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"},{"id":3,"event_name":"Penutupan Jalan untuk Perayaan Hari Raya Galungan","event_type":"penutupan_jalan","description":"Penutupan jalan utama di Denpasar untuk perayaan Galungan.","latitude":"-8.65543210","longitude":"115.22012345","severity":"high","event_date":"2026-06-01","created_at":"2026-01-15T01:44:38.000000Z","updated_at":"2026-01-15T01:44:38.000000Z"}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/kosts/{id}/reviews'
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'The ID of the kost.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":[{"id":1,"user_id":8,"kost_id":1,"rating":5,"comment":"Kosnya bersih banget, ibu kos ramah. Recommended!","created_at":"2026-01-16T01:38:42.000000Z","updated_at":"2026-01-16T01:38:42.000000Z","user":{"id":8,"name":"Made Owner","avatar":null}}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/user
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/dashboard
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/wishlists
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/wishlists/toggle
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      kost_id:
+        custom: []
+        name: kost_id
+        description: 'The <code>id</code> of an existing record in the kosts table.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      kost_id: architecto
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/reviews
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      kost_id:
+        custom: []
+        name: kost_id
+        description: 'The <code>id</code> of an existing record in the kosts table.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      rating:
+        custom: []
+        name: rating
+        description: 'Must be at least 1. Must not be greater than 5.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      comment:
+        custom: []
+        name: comment
+        description: 'Bintang 1 sampai 5. Must not be greater than 500 characters.'
+        required: false
+        example: g
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        deprecated: false
+    cleanBodyParameters:
+      kost_id: architecto
+      rating: 2
+      comment: g
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/mock-cultural-events
+    metadata:
+      custom: []
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"message":"Data Event Budaya & Kemacetan Denpasar (Simulation)","data":[{"id":101,"event_name":"Pawai Ogoh-ogoh (Pengerupukan)","description":"Penutupan jalan total di sekitar Catur Muka.","district":"Denpasar Utara","latitude":-8.6581,"longitude":115.2163,"type":"road_closure","severity":"high"},{"id":102,"event_name":"Upacara Melasti","description":"Iring-iringan menuju Pantai Sanur. Bypass Ngurah Rai padat.","district":"Denpasar Selatan","latitude":-8.6748,"longitude":115.2631,"type":"traffic_warning","severity":"medium"}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          vary: Origin
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

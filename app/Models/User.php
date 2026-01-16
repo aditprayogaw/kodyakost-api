@@ -10,7 +10,6 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -44,5 +43,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Kos yang disukai user ini
+    public function wishlists()
+    {
+        return $this->belongsToMany(Kost::class, 'wishlists', 'user_id', 'kost_id');
     }
 }

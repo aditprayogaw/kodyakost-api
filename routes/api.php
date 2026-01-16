@@ -4,6 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\KostController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CulturalEventController;
+use App\Http\Controllers\Api\FacilityController;
+use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\WishlistController;
+use App\Http\Controllers\Api\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +28,10 @@ Route::post('/login', [AuthController::class, 'login']);
 */
 Route::get('/kosts', [KostController::class, 'index']);
 Route::get('/kosts/{id}', [KostController::class, 'show']);
+Route::get('/facilities', [FacilityController::class, 'index']);
+Route::get('/cultural-events', [CulturalEventController::class, 'index']);
+Route::get('/kosts/{id}/reviews', [ReviewController::class, 'index']);
+
 
 /*
 | 3. PROTECTED ROUTES 
@@ -37,8 +46,15 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+
+    // Route Wishlist
+    Route::get('/wishlists', [WishlistController::class, 'index']);
+    Route::post('/wishlists/toggle', [WishlistController::class, 'toggle']);
+
+    // Kirim review
+    Route::post('/reviews', [ReviewController::class, 'store']);
     /**
-     * Kedepannya di sini kita akan pasang:
      * - Route untuk Booking (khusus tenant)
      * - Route untuk Approval (khusus owner)
      */

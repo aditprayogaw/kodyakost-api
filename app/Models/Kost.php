@@ -30,6 +30,18 @@ class Kost extends Model
             : asset('storage/' . $this->thumbnail);
     }
 
+    // Relasi ke Review
+    public function reviews()
+{
+    return $this->hasMany(Review::class);
+    }
+
+    // Relasi ke Wishlist
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'wishlists', 'kost_id', 'user_id');
+    }
+
     /**
      * Relasi: Kost dimiliki oleh satu User (Owner)
      */

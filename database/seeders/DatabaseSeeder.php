@@ -13,7 +13,8 @@ class DatabaseSeeder extends Seeder
     $this->call([
         UserSeeder::class,      // Membuat Made Tenant & Krisna Owner
         FacilitySeeder::class,  // Membuat AC, WiFi, dll
-        KostSeeder::class,      // Membuat Data Kos Asli di Denpasar
+        KostSeeder::class,  
+        CulturalEventSeeder::class,  // Membuat Data Kos Asli di Denpasar
     ]);
 
     // Jika ingin tambah user random untuk keramaian, baru pakai factory:

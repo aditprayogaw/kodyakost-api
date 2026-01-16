@@ -1,0 +1,214 @@
+{
+  "info": {
+    "_postman_id": "f8f1137c-22a3-4a47-8d28-7f508e2f8dbe",
+    "name": "Kodya Kost API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "id": "4e84a716-5aea-4f7c-9f3c-2c5a117d8f33",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/register",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "register"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login",
+      "id": "d6659e04-c41b-43c4-b2b4-2fbd2cb5ca15",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/login",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "id": "07f1c579-078f-4bbc-a3bb-79b57a4ce04f",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Kosts",
+      "id": "bd8c06d2-c99b-4add-bae0-57152a451d84",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/kosts",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "kosts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Kost by ID",
+      "id": "89c2a198-28eb-41d0-bd85-f5d39d7128a1",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/kosts/{id}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "kosts",
+            "{id}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "List Cultural Events",
+      "id": "a5f4d253-5964-4ca0-ab28-7e6e25625777",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/cultural-events",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "cultural-events"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Mock Cultural Events",
+      "id": "5bc54163-eb1f-436a-92ff-cf6cdbabb527",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/mock-cultural-events",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "mock-cultural-events"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Dashboard",
+      "id": "d9bae2b1-ba86-4472-9535-93cde0684cfc",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/dashboard",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "dashboard"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post Wishlist",
+      "id": "c027d471-0758-481b-a478-ffb2ca7c51f6",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post Review",
+      "id": "0908fa33-1743-4a9b-8b1b-35c5cf8d8221",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Reiviews",
+      "id": "ae9e710e-c54e-4854-b0e0-2e60381ad910",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    }
+  ]
+}
