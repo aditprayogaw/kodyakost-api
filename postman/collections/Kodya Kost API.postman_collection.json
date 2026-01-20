@@ -209,6 +209,102 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Post Update Profile",
+      "id": "c5a6fe52-46a6-4d0a-802c-574347a51973",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/logout",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "api",
+            "logout"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Kost Pending",
+      "id": "55c5d00f-6792-4076-a516-153768a4b1cd",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Patch Verifikasi",
+      "id": "0b3b789d-32af-4968-ac56-53811dfdd3e2",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post Add Kost",
+      "id": "46c9a161-21f5-45ae-836e-d568f73e7d38",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post Create Room",
+      "id": "ba35022a-0edc-4433-afe4-f8b848355048",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "7|3mcnmi6qHrEPgzIBT8cfhstKSJQmmDeAc8W6kWpM8bbb92c9",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"kost_id\": 1,\r\n    \"room_type\": \"Kamar VIP AC\",\r\n    \"price_per_month\": 1500000,\r\n    \"total_rooms\": 5,\r\n    \"room_size\": \"3x4 Meter\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/owner/rooms",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "owner",
+            "rooms"
+          ]
+        }
+      },
+      "response": []
     }
   ]
 }
