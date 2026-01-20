@@ -9,6 +9,11 @@ use App\Http\Controllers\Api\FacilityController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\ProfileController;
+
+use App\Http\Controllers\Api\Admin\KostController as AdminKostController;
+use App\Http\Controllers\Api\Owner\KostController as OwnerKostController;
+use App\Http\Controllers\Api\Owner\RoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +51,9 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    // UPDATE PROFILE
+    Route::post('/profile/update', [ProfileController::class, 'update']);
+
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // Route Wishlist
@@ -59,6 +67,38 @@ Route::middleware('auth:sanctum')->group(function () {
      * - Route untuk Approval (khusus owner)
      */
 });
+
+/*
+| --------------------------------------------------------------------------
+|   ROUTE ADMIN
+| --------------------------------------------------------------------------
+*/
+Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function () {
+    // Route Verify Kos
+        Route::get('/kosts/pending', [AdminKostController::class, 'pending']);
+        Route::patch('/kosts/{id}/verify', [AdminKostController::class, 'verify']);
+});
+
+/*
+| --------------------------------------------------------------------------
+|   ROUTE OWNER
+| --------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth:sanctum', 'is_owner'])->prefix('owner')->group(function () {
+    // CRUD KOST
+    Route::get('/kosts', [OwnerKostController::class, 'index']); 
+    Route::post('/kosts', [OwnerKostController::class, 'store']); 
+    Route::put('/kosts/{id}', [OwnerKostController::class, 'update']); 
+    Route::delete('/kosts/{id}', [OwnerKostController::class, 'destroy']);
+
+    // CRUD KAMAR
+    Route::get('/rooms', [RoomController::class, 'index']); 
+    Route::post('/rooms', [RoomController::class, 'store']); 
+    Route::put('/rooms/{id}', [RoomController::class, 'update']); 
+    Route::delete('/rooms/{id}', [RoomController::class, 'destroy']);
+});
+
 
 /*
 |--------------------------------------------------------------------------
