@@ -27,5 +27,14 @@ class UserSeeder extends Seeder
             'role' => 'owner',
             'phone_whatsapp' => '08987654321',
         ]);
+
+        // Membuat akun Admin
+        User::create([
+            'name' => 'Admin Kodyakost',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password123'),
+            'role' => 'admin',
+            'phone_whatsapp' => '08765432109',
+        ]);
     }
 }
