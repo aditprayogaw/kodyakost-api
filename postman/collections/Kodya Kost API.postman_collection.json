@@ -305,6 +305,163 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "Get My Kost",
+      "id": "ba2abaff-3f40-4fa9-bc5e-a5c421b22ff7",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post Booking",
+      "id": "ac79aa50-7c31-4127-b0f1-fabeb103f23b",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/tenant/bookings",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "tenant",
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Booking",
+      "id": "fc75309a-a720-439a-a418-fe74a31ab236",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/tenant/bookings",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "tenant",
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Owner List Book",
+      "id": "e054dfeb-fa52-4b26-89ce-36e5720bab5e",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "http://localhost:8000/api/owner/bookings",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/owner/bookings",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "owner",
+            "bookings"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Patch Booking",
+      "id": "fdfab03f-5d27-43e5-b513-04d2b61177b6",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/owner/bookings/{ID_BOOKING}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "owner",
+            "bookings",
+            "{ID_BOOKING}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Payment",
+      "id": "2b6ae8ac-17b6-4faf-9fe6-5635b788ec8c",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Post Status Payment",
+      "id": "24d5801a-71c2-424b-bd3e-ff9cb422fb9c",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/midtrans/callback",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "midtrans",
+            "callback"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Callback Host",
+      "id": "679d2254-1611-4aa7-bfee-7b5e03ad83cb",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
     }
   ]
 }

@@ -10,10 +10,20 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\CallbackController;
 
+// OWNER CONTROLLERS
 use App\Http\Controllers\Api\Admin\KostController as AdminKostController;
+
+// OWNER CONTROLLERS
 use App\Http\Controllers\Api\Owner\KostController as OwnerKostController;
+use App\Http\Controllers\Api\Owner\BookingController as OwnerBookingController;
 use App\Http\Controllers\Api\Owner\RoomController;
+
+// TENANT CONTROLLERS
+use App\Http\Controllers\Api\Tenant\MyKostController;
+use App\Http\Controllers\Api\Tenant\BookingController as TenantBookingController;
+use App\Http\Controllers\Api\Tenant\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,14 +32,14 @@ use App\Http\Controllers\Api\Owner\RoomController;
 */
 
 /*
-| 1. AUTHENTICATION 
+| AUTHENTICATION 
 */
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
 /*
-| 2. PUBLIC DATA 
+| PUBLIC DATA 
 */
 Route::get('/kosts', [KostController::class, 'index']);
 Route::get('/kosts/{id}', [KostController::class, 'show']);
@@ -39,7 +49,7 @@ Route::get('/kosts/{id}/reviews', [ReviewController::class, 'index']);
 
 
 /*
-| 3. PROTECTED ROUTES 
+| PROTECTED ROUTES 
 */
 Route::middleware('auth:sanctum')->group(function () {
     
@@ -97,40 +107,32 @@ Route::middleware(['auth:sanctum', 'is_owner'])->prefix('owner')->group(function
     Route::post('/rooms', [RoomController::class, 'store']); 
     Route::put('/rooms/{id}', [RoomController::class, 'update']); 
     Route::delete('/rooms/{id}', [RoomController::class, 'destroy']);
-});
 
+    // Manage Bookings
+    Route::get('/bookings', [OwnerBookingController::class, 'index']); // List Pesanan
+    Route::patch('/bookings/{id}', [OwnerBookingController::class, 'update']); // Approve/Reject
+});
 
 /*
-|--------------------------------------------------------------------------
-| Mock API KodyaKost - Update 14 Jan 2026
-|--------------------------------------------------------------------------
+| --------------------------------------------------------------------------
+|   ROUTE TENANT
+| --------------------------------------------------------------------------
 */
 
-Route::get('/mock-cultural-events', function () {
-    return response()->json([
-        'success' => true,
-        'message' => 'Data Event Budaya & Kemacetan Denpasar (Simulation)',
-        'data' => [
-            [
-                'id' => 101,
-                'event_name' => 'Pawai Ogoh-ogoh (Pengerupukan)',
-                'description' => 'Penutupan jalan total di sekitar Catur Muka.',
-                'district' => 'Denpasar Utara',
-                'latitude' => -8.6581, 
-                'longitude' => 115.2163,
-                'type' => 'road_closure', 
-                'severity' => 'high'
-            ],
-            [
-                'id' => 102,
-                'event_name' => 'Upacara Melasti',
-                'description' => 'Iring-iringan menuju Pantai Sanur. Bypass Ngurah Rai padat.',
-                'district' => 'Denpasar Selatan',
-                'latitude' => -8.6748, 
-                'longitude' => 115.2631,
-                'type' => 'traffic_warning',
-                'severity' => 'medium'
-            ]
-        ]
-    ]);
+// --- GROUP KHUSUS TENANT ---
+Route::middleware(['auth:sanctum'])->prefix('tenant')->group(function () {
+    
+    // Fitur "Active Mode" (Kos Saya)
+    Route::get('/my-kost', [MyKostController::class, 'index']);
+    // Request Booking
+    Route::post('/bookings', [TenantBookingController::class, 'store']);
+    Route::get('/bookings', [TenantBookingController::class, 'index']);
+    // Payment Gateway
+    Route::get('/bookings/{id}/payment', [PaymentController::class, 'getPaymentLink']);
 });
+
+// Midtrans Callback (Webhook)
+// Method POST karena Midtrans ngirim data
+Route::post('/midtrans/callback', [CallbackController::class, 'handle']);
+
+
