@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\CallbackController;
 // ADMIN CONTROLLERS
 use App\Http\Controllers\Api\Admin\KostController as AdminKostController;
 use App\Http\Controllers\Api\Admin\UserController;
+use App\Http\Controllers\Api\Admin\CulturalEventController as AdminCulturalEventController;
 
 // OWNER CONTROLLERS
 use App\Http\Controllers\Api\Owner\KostController as OwnerKostController;
@@ -95,6 +96,12 @@ Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function
     Route::get('/users', [UserController::class, 'index']);      // List User
     Route::get('/users/{id}', [UserController::class, 'show']);  // Detail User
     Route::delete('/users/{id}', [UserController::class, 'destroy']); // Hapus User
+
+    // --- Cultural Event Management ---
+    Route::get('/events', [AdminCulturalEventController::class, 'index']);
+    Route::post('/events', [AdminCulturalEventController::class, 'store']);       // Create 
+    Route::post('/events/{id}', [AdminCulturalEventController::class, 'update']); // Update 
+    Route::delete('/events/{id}', [AdminCulturalEventController::class, 'destroy']); // Delete
 });
 
 /*
