@@ -12,8 +12,9 @@ use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\CallbackController;
 
-// OWNER CONTROLLERS
+// ADMIN CONTROLLERS
 use App\Http\Controllers\Api\Admin\KostController as AdminKostController;
+use App\Http\Controllers\Api\Admin\UserController;
 
 // OWNER CONTROLLERS
 use App\Http\Controllers\Api\Owner\KostController as OwnerKostController;
@@ -84,9 +85,16 @@ Route::middleware('auth:sanctum')->group(function () {
 | --------------------------------------------------------------------------
 */
 Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function () {
+    // Logout: Menghapus token dari database
+    Route::post('/logout', [AuthController::class, 'logout']);
     // Route Verify Kos
-        Route::get('/kosts/pending', [AdminKostController::class, 'pending']);
-        Route::patch('/kosts/{id}/verify', [AdminKostController::class, 'verify']);
+    Route::get('/kosts/pending', [AdminKostController::class, 'pending']);
+    Route::patch('/kosts/{id}/verify', [AdminKostController::class, 'verify']);
+
+    // --- MANAJEMEN USER ---
+    Route::get('/users', [UserController::class, 'index']);      // List User
+    Route::get('/users/{id}', [UserController::class, 'show']);  // Detail User
+    Route::delete('/users/{id}', [UserController::class, 'destroy']); // Hapus User
 });
 
 /*
@@ -96,6 +104,8 @@ Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function
 */
 
 Route::middleware(['auth:sanctum', 'is_owner'])->prefix('owner')->group(function () {
+    // Logout: Menghapus token dari database
+    Route::post('/logout', [AuthController::class, 'logout']);
     // CRUD KOST
     Route::get('/kosts', [OwnerKostController::class, 'index']); 
     Route::post('/kosts', [OwnerKostController::class, 'store']); 
