@@ -5,48 +5,45 @@ namespace App\Http\Controllers\Api\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CulturalEvent;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CulturalEventController extends Controller
 {
-    // 1. LIHAT SEMUA EVENT (Admin)
+    // 1. LIHAT SEMUA EVENT
     public function index()
     {
+        // Urutkan dari yang terbaru dibuat
         $events = CulturalEvent::orderBy('created_at', 'desc')->get();
-        return response()->json(['data' => $events]);
+        return response()->json(['success' => true, 'data' => $events]);
     }
 
-    // 2. TAMBAH EVENT BARU (Upload Image)
+    // 2. TAMBAH EVENT BARU (Sesuai Database Kamu)
     public function store(Request $request)
     {
-        // Validasi input
+        // Validasi Input (Raw JSON)
         $validator = Validator::make($request->all(), [
-            'name'        => 'required|string|max:255',
+            'event_name'  => 'required|string|max:255',
+            'event_type'  => 'required|string', // misal: pawai, upacara
             'description' => 'required|string',
             'event_date'  => 'required|date',
-            'location'    => 'required|string',
-            'image'       => 'required|image|mimes:jpg,jpeg,png|max:2048', // Max 2MB
+            'latitude'    => 'required|numeric',
+            'longitude'   => 'required|numeric',
+            'severity'    => 'required|in:high,medium,low', // Validasi level macet
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Proses Upload Gambar
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            // Simpan ke folder 'public/events'
-            $imagePath = $request->file('image')->store('events', 'public');
-        }
-
         // Simpan ke Database
         $event = CulturalEvent::create([
-            'name'        => $request->name,
+            'event_name'  => $request->event_name,
+            'event_type'  => $request->event_type,
             'description' => $request->description,
             'event_date'  => $request->event_date,
-            'location'    => $request->location,
-            'image'       => $imagePath, // Simpan path gambarnya
+            'latitude'    => $request->latitude,
+            'longitude'   => $request->longitude,
+            'severity'    => $request->severity,
         ]);
 
         return response()->json([
@@ -56,42 +53,29 @@ class CulturalEventController extends Controller
         ], 201);
     }
 
-    // 3. EDIT EVENT (Update Image opsional)
+    // 3. EDIT EVENT
     public function update(Request $request, $id)
     {
         $event = CulturalEvent::find($id);
         if (!$event) return response()->json(['message' => 'Event not found'], 404);
 
+        // Validasi (Nullable biar bisa edit sebagian aja)
         $validator = Validator::make($request->all(), [
-            'name'        => 'required|string|max:255',
-            'description' => 'required|string',
-            'event_date'  => 'required|date',
-            'location'    => 'required|string',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'event_name'  => 'nullable|string|max:255',
+            'event_type'  => 'nullable|string',
+            'description' => 'nullable|string',
+            'event_date'  => 'nullable|date',
+            'latitude'    => 'nullable|numeric',
+            'longitude'   => 'nullable|numeric',
+            'severity'    => 'nullable|in:high,medium,low',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        // Cek apakah user upload gambar baru
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
-            if ($event->image) {
-                Storage::disk('public')->delete($event->image);
-            }
-            // Upload gambar baru
-            $event->image = $request->file('image')->store('events', 'public');
-        }
-
-        // Update data text
-        $event->update([
-            'name'        => $request->name,
-            'description' => $request->description,
-            'event_date'  => $request->event_date,
-            'location'    => $request->location,
-            // Image otomatis terupdate jika ada logic di atas
-        ]);
+        // Update Data
+        $event->update($request->all());
 
         return response()->json([
             'success' => true,
@@ -106,13 +90,9 @@ class CulturalEventController extends Controller
         $event = CulturalEvent::find($id);
         if (!$event) return response()->json(['message' => 'Event not found'], 404);
 
-        // Hapus file gambar dari penyimpanan biar gak nyampah
-        if ($event->image) {
-            Storage::disk('public')->delete($event->image);
-        }
-
+        // Langsung hapus (karena gak ada file gambar yg perlu dihapus)
         $event->delete();
 
-        return response()->json(['message' => 'Event berhasil dihapus']);
+        return response()->json(['success' => true, 'message' => 'Event berhasil dihapus']);
     }
 }
