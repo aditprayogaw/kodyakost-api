@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\Owner;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kost;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage; // Pastikan ini ada
 
 class KostController extends Controller
 {
@@ -19,21 +19,20 @@ class KostController extends Controller
     // 2. TAMBAH KOS BARU
     public function store(Request $request)
     {
-        // Validasi input
+        // Validasi
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'address' => 'required|string',
-            'district' => 'required|in:Denpasar Barat,Denpasar Timur,Denpasar Utara,Denpasar Selatan',
+            'district' => 'required|in:Denpasar Barat,Denpasar Timur,Denpasar Utara,Denpasar Selatan', // Sesuaikan enum DB
             'village' => 'required|string',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'thumbnail' => 'nullable|image|max:2048'
+            'thumbnail' => 'required|image|max:2048' // Wajib ada foto saat pertama buat
         ]);
 
-        /// 2. Simpan Data
         $kost = new Kost();
-        $kost->user_id = $request->user()->id; // Ambil ID Owner dari Token
+        $kost->user_id = $request->user()->id;
         $kost->name = $request->name;
         $kost->description = $request->description;
         $kost->address = $request->address;
@@ -41,11 +40,9 @@ class KostController extends Controller
         $kost->village = $request->village;
         $kost->latitude = $request->latitude;
         $kost->longitude = $request->longitude;
+        $kost->is_verified = false; // Default Pending
 
-        // Default value
-        $kost->is_verified = false;
-
-        // Upload Thumbnail 
+        // Upload Thumbnail
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('kost_thumbnails', 'public');
             $kost->thumbnail = $path;
@@ -55,23 +52,35 @@ class KostController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Data Kos berhasil dibuat! Selanjutnya silakan tambah Tipe Kamar.',
+            'message' => 'Kos berhasil dibuat! Menunggu verifikasi Admin.',
             'data' => $kost
-        ]);
+        ], 201);
     }
 
-    // 3. EDIT KOS
+    // 3. EDIT KOS (Fixed: Handle Image & Security)
     public function update(Request $request, $id)
     {
         $kost = Kost::where('user_id', $request->user()->id)->findOrFail($id);
 
         $request->validate([
             'name' => 'sometimes|string|max:255',
-            'price_per_month' => 'sometimes|numeric',
-            // ... validasi lain sesuai kebutuhan
+            'description' => 'sometimes|string',
+            'thumbnail' => 'nullable|image|max:2048'
         ]);
 
-        $kost->update($request->all());
+        // Logic Update Gambar (Hapus lama, Simpan baru)
+        if ($request->hasFile('thumbnail')) {
+            // Hapus gambar lama jika ada
+            if ($kost->thumbnail && Storage::disk('public')->exists($kost->thumbnail)) {
+                Storage::disk('public')->delete($kost->thumbnail);
+            }
+            // Simpan baru
+            $path = $request->file('thumbnail')->store('kost_thumbnails', 'public');
+            $kost->thumbnail = $path;
+        }
+
+        // Update data text
+        $kost->update($request->except(['thumbnail', 'is_verified', 'user_id']));
 
         return response()->json([
             'success' => true,
@@ -80,12 +89,16 @@ class KostController extends Controller
         ]);
     }
 
-    // 4. HAPUS KOS
+    // 4. HAPUS KOS (Fixed: Hapus File Gambar)
     public function destroy(Request $request, $id)
     {
         $kost = Kost::where('user_id', $request->user()->id)->findOrFail($id);
         
-        // Hapus (otomatis kamar & booking terhapus jika settingan db cascade)
+        // Hapus file gambar dari server
+        if ($kost->thumbnail && Storage::disk('public')->exists($kost->thumbnail)) {
+            Storage::disk('public')->delete($kost->thumbnail);
+        }
+
         $kost->delete();
 
         return response()->json([

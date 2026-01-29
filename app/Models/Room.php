@@ -17,7 +17,8 @@ class Room extends Model
         'price_per_month',
         'total_rooms',
         'available_rooms',
-        'room_size',
+        'room_size',   
+        'image',
     ];
 
     public function getImageUrlAttribute() {

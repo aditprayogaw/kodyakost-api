@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\CallbackController;
 use App\Http\Controllers\Api\Admin\KostController as AdminKostController;
 use App\Http\Controllers\Api\Admin\UserController;
 use App\Http\Controllers\Api\Admin\CulturalEventController as AdminCulturalEventController;
+use App\Http\Controllers\Api\Admin\FacilityController as AdminFacilityController;
 
 // OWNER CONTROLLERS
 use App\Http\Controllers\Api\Owner\KostController as OwnerKostController;
@@ -92,6 +93,9 @@ Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function
     Route::get('/kosts/pending', [AdminKostController::class, 'pending']);
     Route::patch('/kosts/{id}/verify', [AdminKostController::class, 'verify']);
 
+    // --- MASTER DATA FASILITAS ---
+    Route::apiResource('facilities', AdminFacilityController::class);
+
     // --- MANAJEMEN USER ---
     Route::get('/users', [UserController::class, 'index']);      // List User
     Route::get('/users/{id}', [UserController::class, 'show']);  // Detail User
@@ -102,6 +106,12 @@ Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function
     Route::post('/events', [AdminCulturalEventController::class, 'store']);       // Create 
     Route::post('/events/{id}', [AdminCulturalEventController::class, 'update']); // Update 
     Route::delete('/events/{id}', [AdminCulturalEventController::class, 'destroy']); // Delete
+
+    // --- BARU: VERIFIKASI KOS ---
+    Route::get('/kosts', [AdminKostController::class, 'index']);           // List Kos (Bisa filter pending)
+    Route::get('/kosts/{id}', [AdminKostController::class, 'show']);       // Detail Cek Kos
+    Route::put('/kosts/{id}/approve', [AdminKostController::class, 'approve']); // Tombol Approve
+    Route::put('/kosts/{id}/reject', [AdminKostController::class, 'reject']);   // Tombol Reject
 });
 
 /*

@@ -21,7 +21,10 @@ class Kost extends Model
         'latitude',
         'longitude',
         'is_verified',
+        'thumbnail',
     ];
+
+    protected $appends = ['thumbnail_url'];
 
     public function getThumbnailUrlAttribute() {
         if (!$this->thumbnail) return 'https://placehold.co/600x400?text=No+Image';
