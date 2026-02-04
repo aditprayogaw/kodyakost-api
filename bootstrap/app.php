@@ -18,7 +18,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'is_admin' => IsAdmin::class,
             'is_owner' => IsOwner::class,
         ]);
+
+        $middleware->validateCsrfTokens(except: [
+            'api/midtrans-callback', // URL lengkap (karena di routes/api.php)
+            'midtrans-callback',     // Cadangan jika routing berbeda
+        ]);
     })
+    
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();

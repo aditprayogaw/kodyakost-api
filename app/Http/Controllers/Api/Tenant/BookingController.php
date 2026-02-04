@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\Tenant;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Notifications\NewBookingNotification;
 use App\Models\Booking;
 use App\Models\Room;
 use Carbon\Carbon; // Library untuk manipulasi tanggal
+
 
 class BookingController extends Controller
 {
@@ -57,6 +59,11 @@ class BookingController extends Controller
             'total_price' => $totalPrice,
             'status' => 'pending', // Default menunggu owner
         ]);
+
+        $owner = $booking->room->kost->owner;
+
+        // Kirim Notif ke Owner
+        $owner->notify(new NewBookingNotification($booking));
 
         return response()->json([
             'success' => true,

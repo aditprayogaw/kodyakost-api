@@ -19,7 +19,14 @@ class User extends Authenticatable
      */
     
     protected $fillable = [
-        'name', 'email', 'password', 'role', 'phone_whatsapp', 'avatar',
+        'name', 
+        'email', 
+        'password', 
+        'role', 
+        'phone_whatsapp', 
+        'avatar',
+        'ktp_image', 
+        'is_ktp_verified'
     ];
 
     /**
@@ -42,7 +49,27 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_ktp_verified' => 'boolean',
         ];
+    }
+
+    // Append atribut tambahan agar muncul otomatis di JSON
+    protected $appends = ['avatar_url', 'ktp_url'];
+
+    // 1. Helper URL Avatar
+    public function getAvatarUrlAttribute()
+    {
+        if (!$this->avatar) {
+            return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=random';
+        }
+        return asset('storage/' . $this->avatar);
+    }
+
+    // 2. Helper URL KTP (PENTING BUAT OWNER)
+    public function getKtpUrlAttribute()
+    {
+        if (!$this->ktp_image) return null;
+        return asset('storage/' . $this->ktp_image);
     }
 
     // Kos yang disukai user ini

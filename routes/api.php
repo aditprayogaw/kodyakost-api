@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\CallbackController;
+use App\Http\Controllers\Api\NotificationController;
 
 // ADMIN CONTROLLERS
 use App\Http\Controllers\Api\Admin\KostController as AdminKostController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Api\Admin\FacilityController as AdminFacilityController
 use App\Http\Controllers\Api\Owner\KostController as OwnerKostController;
 use App\Http\Controllers\Api\Owner\BookingController as OwnerBookingController;
 use App\Http\Controllers\Api\Owner\RoomController;
+use App\Http\Controllers\Api\Owner\FinancialController;
 
 // TENANT CONTROLLERS
 use App\Http\Controllers\Api\Tenant\MyKostController;
@@ -50,6 +52,9 @@ Route::get('/facilities', [FacilityController::class, 'index']);
 Route::get('/cultural-events', [CulturalEventController::class, 'index']);
 Route::get('/kosts/{id}/reviews', [ReviewController::class, 'index']);
 
+// Midtrans Callback (Webhook)
+Route::post('/midtrans-callback', [CallbackController::class, 'handle']);
+
 
 /*
 | PROTECTED ROUTES 
@@ -75,10 +80,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Kirim review
     Route::post('/reviews', [ReviewController::class, 'store']);
-    /**
-     * - Route untuk Booking (khusus tenant)
-     * - Route untuk Approval (khusus owner)
-     */
+    
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/read', [NotificationController::class, 'markAsRead']);
 });
 
 /*
@@ -107,11 +111,14 @@ Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function
     Route::post('/events/{id}', [AdminCulturalEventController::class, 'update']); // Update 
     Route::delete('/events/{id}', [AdminCulturalEventController::class, 'destroy']); // Delete
 
-    // --- BARU: VERIFIKASI KOS ---
+    // --- VERIFIKASI KOS ---
     Route::get('/kosts', [AdminKostController::class, 'index']);           // List Kos (Bisa filter pending)
     Route::get('/kosts/{id}', [AdminKostController::class, 'show']);       // Detail Cek Kos
     Route::put('/kosts/{id}/approve', [AdminKostController::class, 'approve']); // Tombol Approve
     Route::put('/kosts/{id}/reject', [AdminKostController::class, 'reject']);   // Tombol Reject
+
+    // --- DASHBOARD ADMIN ---
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 });
 
 /*
@@ -138,6 +145,9 @@ Route::middleware(['auth:sanctum', 'is_owner'])->prefix('owner')->group(function
     // Manage Bookings
     Route::get('/bookings', [OwnerBookingController::class, 'index']); // List Pesanan
     Route::patch('/bookings/{id}', [OwnerBookingController::class, 'update']); // Approve/Reject
+
+    // LAPORAN KEUANGAN 
+    Route::get('/financial-report', [FinancialController::class, 'index']);
 });
 
 /*
@@ -156,6 +166,8 @@ Route::middleware(['auth:sanctum'])->prefix('tenant')->group(function () {
     Route::get('/bookings', [TenantBookingController::class, 'index']);
     // Payment Gateway
     Route::get('/bookings/{id}/payment', [PaymentController::class, 'getPaymentLink']);
+    // Upload KTP
+    Route::post('/profile/ktp', [ProfileController::class, 'uploadKtp']);
 });
 
 // Midtrans Callback (Webhook)

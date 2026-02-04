@@ -5,70 +5,119 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking;
-use Illuminate\Support\Facades\Log;  // Track error
-
+use Illuminate\Support\Facades\Log; 
+use App\Notifications\BookingStatusNotification;
 
 class CallbackController extends Controller
 {
     public function handle(Request $request)
     {
         $serverKey = config('midtrans.server_key');
-        
-        // 1. Ambil data JSON dari Midtrans
-        $json = $request->getContent();
-        $notification = json_decode($json);
 
-        // Validasi payload
+        // 1. Ambil Payload dari Midtrans
+        $payload = $request->getContent();
+        $notification = json_decode($payload);
+
+        // Validasi JSON
         if (!$notification) {
             return response()->json(['message' => 'Invalid JSON'], 400);
         }
 
-        $transactionStatus = $notification->transaction_status;
+        // 2. Ambil Variable Penting
+        $transactionStatus = $notification->transaction_status; 
         $type = $notification->payment_type;
-        $orderId = $notification->order_id;
+        $orderId = $notification->order_id; // Contoh: BOOKING-15-1738...
         $fraud = $notification->fraud_status;
 
-        // 2. Logika Parse Order ID
-        // Format Order ID kita: "BOOKING-15-173829102"
-        // Kita butuh angka "15" (ID Booking aslinya)
+        // 3. Parse Order ID buat dapet Booking ID
+        // Format: "BOOKING-{id}-{timestamp}" -> Ambil angka tengah
         $parts = explode('-', $orderId);
-        $bookingId = $parts[1]; // Ambil elemen ke-2
-
+        
+        // Jaga-jaga kalau format order_id salah
+        if (count($parts) < 2) {
+             return response()->json(['message' => 'Invalid Order ID Format'], 400);
+        }
+        
+        $bookingId = $parts[1]; 
         $booking = Booking::find($bookingId);
 
         if (!$booking) {
             return response()->json(['message' => 'Booking not found'], 404);
         }
 
-        // 3. Validasi Security (Signature Key)
-        // Rumus Midtrans: SHA512(order_id + status_code + gross_amount + ServerKey)
-        // $input = $orderId . $notification->status_code . $notification->gross_amount . $serverKey;
-        // $signature = openssl_digest($input, 'sha512');
+        // 4. LOGIKA UPDATE STATUS (SINKRONISASI DATABASE)
+        // Kita siapkan variable status untuk di-update
+        $statusBooking = null;
+        $statusPayment = null;
 
-        // if ($signature !== $notification->signature_key) {
-        //     return response()->json(['message' => 'Invalid Signature'], 403);
-        // }
-
-        // 4. Update Status Berdasarkan Laporan Midtrans
         if ($transactionStatus == 'capture') {
+            // Khusus Kartu Kredit
             if ($type == 'credit_card') {
                 if ($fraud == 'challenge') {
-                    $booking->update(['status' => 'pending']); // Masih dicek bank
+                    $statusBooking = 'pending';
+                    $statusPayment = 'unpaid'; // Masih ditahan bank
                 } else {
-                    $booking->update(['status' => 'active']); // Sukses CC
+                    $statusBooking = 'active'; // Transaksi Sukses
+                    $statusPayment = 'paid';   // Uang Masuk
                 }
             }
-        } else if ($transactionStatus == 'settlement') {
-            // INI YANG PALING PENTING (Transfer Bank / VA / E-Wallet sukses)
-            $booking->update(['status' => 'active']);
-            
-        } else if ($transactionStatus == 'pending') {
-            $booking->update(['status' => 'pending']); // Menunggu bayar
-            
-        } else if ($transactionStatus == 'deny' || $transactionStatus == 'expire' || $transactionStatus == 'cancel') {
-            $booking->update(['status' => 'canceled']); // Gagal / Kadaluarsa
+        } 
+        else if ($transactionStatus == 'settlement') {
+            // INI YANG PALING SERING (Transfer Bank, Gopay, Indomaret sukses)
+            $statusBooking = 'active'; // Booking Sah
+            $statusPayment = 'paid';   // Uang Masuk -> Masuk Laporan Keuangan
+        } 
+        else if ($transactionStatus == 'pending') {
+            // User baru klik bayar / nunggu transfer
+            $statusBooking = 'pending'; // Atau tetap 'approved'
+            $statusPayment = 'unpaid';
+        } 
+        else if ($transactionStatus == 'deny') {
+            // Ditolak bank
+            $statusBooking = 'canceled';
+            $statusPayment = 'failed';
+        } 
+        else if ($transactionStatus == 'expire') {
+            // Telat bayar
+            $statusBooking = 'canceled';
+            $statusPayment = 'expired';
+        } 
+        else if ($transactionStatus == 'cancel') {
+            // Dibatalkan manual
+            $statusBooking = 'canceled';
+            $statusPayment = 'failed';
         }
 
+        // 5. SIMPAN KE DATABASE & KIRIM NOTIFIKASI
+        if ($statusBooking && $statusPayment) {
+            
+            // Update Database
+            $booking->update([
+                'status' => $statusBooking,
+                'payment_status' => $statusPayment
+            ]);
+
+            // --- LOGIC NOTIFIKASI ---
+            // Jika pembayaran BERHASIL (Paid), beri tahu Tenant
+            if ($statusPayment == 'paid') {
+                try {
+                    // Notif ke Tenant: "Pembayaran Berhasil! Selamat datang..."
+                    $booking->tenant->notify(new BookingStatusNotification($booking, 'active'));
+                    
+                    Log::info("Notifikasi pembayaran sukses dikirim ke user ID: " . $booking->tenant->id);
+                } catch (\Exception $e) {
+                    Log::error("Gagal mengirim notifikasi: " . $e->getMessage());
+                }
+            }
+            // Jika pembayaran GAGAL/EXPIRED
+            else if ($statusPayment == 'failed' || $statusPayment == 'expired') {
+                try {
+                    $booking->tenant->notify(new BookingStatusNotification($booking, 'rejected')); // Atau buat status baru 'failed'
+                } catch (\Exception $e) {}
+            }
+        }
+
+        // 6. Return OK biar Midtrans gak ngirim notif berulang-ulang
         return response()->json(['message' => 'Callback received successfully']);
     }
 }

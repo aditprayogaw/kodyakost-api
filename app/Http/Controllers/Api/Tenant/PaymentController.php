@@ -65,7 +65,7 @@ class PaymentController extends Controller
                     'booking_id' => $booking->id,
                     'order_id' => $orderId,
                     'amount' => $booking->total_price,
-                    'snap_token' => $snapToken, // <--- INI HARTA KARUNNYA
+                    'snap_token' => $snapToken, 
                     'redirect_url' => 'https://app.sandbox.midtrans.com/snap/v2/vtweb/' . $snapToken // Link bayar versi web
                 ]
             ]);

@@ -4,22 +4,30 @@ namespace App\Http\Controllers\Api\Owner;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Notifications\BookingStatusNotification;
 use App\Models\Booking;
 use App\Models\Room;
 
 class BookingController extends Controller
 {
-    // 1. Melihat daftar booking untuk kost milik owner yang sedang login
+    // 1. MELIHAT DAFTAR BOOKING MASUK
     public function index(Request $request)
     {
-        // Logika Query:
-        // Ambil Booking -> Relasi Room -> Relasi Kost -> Cek user_id (Owner)
-        $bookings = Booking::with(['tenant', 'room.kost']) // Load data penyewa & info kamar
-            ->whereHas('room.kost', function ($query) use ($request) {
-                $query->where('user_id', $request->user()->id);
+        // Owner ID
+        $ownerId = $request->user()->id;
+
+        $bookings = Booking::with(['tenant', 'room.kost']) 
+            // Query: Ambil booking yang kamarnya milik Owner ini
+            ->whereHas('room.kost', function ($query) use ($ownerId) {
+                $query->where('user_id', $ownerId);
             })
-            ->latest() // Yang baru masuk paling atas
+            ->latest() 
             ->get();
+
+        // Keterangan:
+        // Karena di Model User sudah ada 'appends' => ['ktp_url'],
+        // Maka di data 'tenant' otomatis akan ada URL KTP-nya.
+        // Frontend tinggal panggil: booking.tenant.ktp_url
 
         return response()->json([
             'success' => true,
@@ -27,23 +35,32 @@ class BookingController extends Controller
         ]);
     }
 
-    // 2. Approve atau Reject booking
+    // 2. APPROVE ATAU REJECT BOOKING
     public function update(Request $request, $id)
     {
+        // Validasi: Status hanya boleh 'approved' (Terima) atau 'rejected' (Tolak)
+        // 'canceled' biasanya dilakukan oleh Tenant sendiri.
         $request->validate([
-            'status' => 'required|in:approved,canceled' 
+            'status' => 'required|in:approved,rejected' 
         ]);
 
-        // Pastikan Booking ini valid dan memang untuk kos milik owner ini
+        // Cari Booking milik Owner
         $booking = Booking::where('id', $id)
             ->whereHas('room.kost', function ($query) use ($request) {
                 $query->where('user_id', $request->user()->id);
             })
             ->firstOrFail();
 
-        // Update Status
+        // Logic Update Status
         $booking->status = $request->status;
+        
+        // Note: Payment Status biarkan apa adanya (unpaid). 
+        // Setelah 'approved', nanti Tenant lanjut bayar via Midtrans.
+        
         $booking->save();
+
+        // Kirim Notif ke Tenant
+        $booking->tenant->notify(new BookingStatusNotification($booking, $request->status));
 
         return response()->json([
             'success' => true,
@@ -51,4 +68,6 @@ class BookingController extends Controller
             'data' => $booking
         ]);
     }
+
+    
 }

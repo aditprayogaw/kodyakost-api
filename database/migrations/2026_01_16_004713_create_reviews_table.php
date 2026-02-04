@@ -15,9 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Tenant
             $table->foreignId('kost_id')->constrained()->onDelete('cascade'); // Kos yang direview
-
-            // Belum ada fitur booking, jadi kolom ini di-comment dulu
-            // $table->foreignId('booking_id')->constrained()->onDelete('cascade'); // Bukti transaksi
             
             $table->tinyInteger('rating')->unsigned(); // Skala 1-5
             $table->text('comment')->nullable();
