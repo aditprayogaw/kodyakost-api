@@ -30,13 +30,13 @@ class PaymentController extends Controller
         Config::$is3ds = config('midtrans.is_3ds');
 
         // 3. Bikin ID Transaksi Unik
-        // Gabung ID Booking + Timestamp biar kalau user coba bayar berkali-kali gak error "Duplicate Order ID"
+        // Gunakan variable ini konsisten untuk dikirim ke Midtrans DAN disimpan ke Database
         $orderId = 'BOOKING-' . $booking->id . '-' . time();
 
         // 4. Siapkan Parameter untuk dikirim ke Midtrans
         $params = [
             'transaction_details' => [
-                'order_id' => $orderId,
+                'order_id' => $orderId, 
                 'gross_amount' => (int) $booking->total_price,
             ],
             'customer_details' => [
@@ -58,6 +58,17 @@ class PaymentController extends Controller
             // 5. Minta Snap Token ke Midtrans
             $snapToken = Snap::getSnapToken($params);
             
+            // Link Redirect (Bawaan Sandbox Midtrans)
+            // Catatan: Jika production, URL dasarnya beda. Tapi Snap Token tetap sama.
+            $paymentUrl = 'https://app.sandbox.midtrans.com/snap/v2/vtweb/' . $snapToken;
+
+            // 6. Simpan midtrans_order_id & payment_url ke Database
+            $booking->update([
+                'midtrans_order_id' => $orderId,
+                'payment_url'       => $paymentUrl
+            ]);
+            // ============================================================
+            
             return response()->json([
                 'success' => true,
                 'message' => 'Link pembayaran berhasil dibuat.',
@@ -66,7 +77,7 @@ class PaymentController extends Controller
                     'order_id' => $orderId,
                     'amount' => $booking->total_price,
                     'snap_token' => $snapToken, 
-                    'redirect_url' => 'https://app.sandbox.midtrans.com/snap/v2/vtweb/' . $snapToken // Link bayar versi web
+                    'redirect_url' => $paymentUrl
                 ]
             ]);
 
