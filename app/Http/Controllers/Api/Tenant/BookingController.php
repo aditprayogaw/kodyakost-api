@@ -24,7 +24,7 @@ class BookingController extends Controller
         // 2. Ambil Data Kamar (Cek Stok & Harga)
         $room = Room::find($request->room_id);
 
-        if ($room->available_count < 1) {
+        if ($room->available_rooms < 1) {
             return response()->json([
                 'success' => false,
                 'message' => 'Maaf, kamar ini sudah penuh (Habis).'
