@@ -17,6 +17,7 @@ class Booking extends Model
         'end_date',
         'status',
         'total_price',
+        'payment_status',
         'midtrans_order_id', 
         'payment_url',       
     ];
