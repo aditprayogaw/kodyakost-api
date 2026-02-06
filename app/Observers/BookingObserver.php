@@ -18,8 +18,8 @@ class BookingObserver
             $room = $booking->room;
             
             // Pastikan stok tidak negatif
-            if ($room->available_count > 0) {
-                $room->decrement('available_count'); 
+            if ($room->available_rooms > 0) {
+                $room->decrement('available_rooms'); 
             }
         }
 
@@ -31,7 +31,7 @@ class BookingObserver
             // Kalau dia belum bayar (masih pending) lalu cancel, stok gak perlu dibalikin (karena belum dipotong)
             // Tapi kalau kasusnya refund atau cancel paksa setelah bayar:
             if ($booking->payment_status == 'paid') {
-                $booking->room->increment('available_count');
+                $booking->room->increment('available_rooms');
             }
         }
         
