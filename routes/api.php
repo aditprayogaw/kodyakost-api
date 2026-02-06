@@ -171,7 +171,6 @@ Route::middleware(['auth:sanctum'])->prefix('tenant')->group(function () {
 });
 
 // Midtrans Callback (Webhook)
-// Method POST karena Midtrans ngirim data
 Route::post('/midtrans/callback', [CallbackController::class, 'handle']);
 
 

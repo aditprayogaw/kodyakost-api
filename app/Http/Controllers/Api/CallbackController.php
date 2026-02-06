@@ -45,6 +45,9 @@ class CallbackController extends Controller
             return response()->json(['message' => 'Booking not found'], 404);
         }
 
+        // Simpan status lama untuk pengecekan double-update
+        $oldPaymentStatus = $booking->payment_status;
+
         // 4. LOGIKA UPDATE STATUS (SINKRONISASI DATABASE)
         // Kita siapkan variable status untuk di-update
         $statusBooking = null;
@@ -65,11 +68,11 @@ class CallbackController extends Controller
         else if ($transactionStatus == 'settlement') {
             // INI YANG PALING SERING (Transfer Bank, Gopay, Indomaret sukses)
             $statusBooking = 'active'; // Booking Sah
-            $statusPayment = 'paid';   // Uang Masuk -> Masuk Laporan Keuangan
+            $statusPayment = 'paid';   // Uang Masuk
         } 
         else if ($transactionStatus == 'pending') {
             // User baru klik bayar / nunggu transfer
-            $statusBooking = 'pending'; // Atau tetap 'approved'
+            $statusBooking = 'pending'; 
             $statusPayment = 'unpaid';
         } 
         else if ($transactionStatus == 'deny') {
@@ -91,28 +94,44 @@ class CallbackController extends Controller
         // 5. SIMPAN KE DATABASE & KIRIM NOTIFIKASI
         if ($statusBooking && $statusPayment) {
             
-            // Update Database
+            // Update Database Utama
             $booking->update([
                 'status' => $statusBooking,
                 'payment_status' => $statusPayment
             ]);
 
+            // --- [LOGIKA PENGURANGAN STOK KAMAR] ---
+            // Cek: Apakah status sekarang 'paid' DAN status sebelumnya BELUM 'paid'?
+            // Ini untuk mencegah stok berkurang 2x kalau Midtrans kirim notif double.
+            if ($statusPayment == 'paid' && $oldPaymentStatus != 'paid') {
+                try {
+                    $room = $booking->room;
+
+                    if ($room) {
+                        // Kurangi stok kamar otomatis -1
+                        $room->decrement('available_room');
+                        Log::info("✅ Stok kamar ID {$room->id} berhasil dikurangi. Sisa: " . ($room->available_room));
+                    } else {
+                        Log::warning("⚠️ Booking ID {$booking->id} lunas, tapi data kamar tidak ditemukan.");
+                    }
+                } catch (\Exception $e) {
+                    Log::error("❌ Gagal mengurangi stok kamar: " . $e->getMessage());
+                }
+            }
+
             // --- LOGIC NOTIFIKASI ---
-            // Jika pembayaran BERHASIL (Paid), beri tahu Tenant
             if ($statusPayment == 'paid') {
                 try {
-                    // Notif ke Tenant: "Pembayaran Berhasil! Selamat datang..."
+                    // Notif ke Tenant
                     $booking->tenant->notify(new BookingStatusNotification($booking, 'active'));
-                    
-                    Log::info("Notifikasi pembayaran sukses dikirim ke user ID: " . $booking->tenant->id);
+                    Log::info("Notifikasi sukses dikirim ke user ID: " . $booking->tenant->id);
                 } catch (\Exception $e) {
                     Log::error("Gagal mengirim notifikasi: " . $e->getMessage());
                 }
             }
-            // Jika pembayaran GAGAL/EXPIRED
             else if ($statusPayment == 'failed' || $statusPayment == 'expired') {
                 try {
-                    $booking->tenant->notify(new BookingStatusNotification($booking, 'rejected')); // Atau buat status baru 'failed'
+                    $booking->tenant->notify(new BookingStatusNotification($booking, 'rejected'));
                 } catch (\Exception $e) {}
             }
         }
