@@ -109,8 +109,8 @@ class CallbackController extends Controller
 
                     if ($room) {
                         // Kurangi stok kamar otomatis -1
-                        $room->decrement('available_room');
-                        Log::info("✅ Stok kamar ID {$room->id} berhasil dikurangi. Sisa: " . ($room->available_room));
+                        $room->decrement('available_rooms');
+                        Log::info("✅ Stok kamar ID {$room->id} berhasil dikurangi. Sisa: " . ($room->available_rooms));
                     } else {
                         Log::warning("⚠️ Booking ID {$booking->id} lunas, tapi data kamar tidak ditemukan.");
                     }
