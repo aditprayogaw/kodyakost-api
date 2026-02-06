@@ -17,6 +17,8 @@ class Booking extends Model
         'end_date',
         'status',
         'total_price',
+        'midtrans_order_id', 
+        'payment_url',       
     ];
 
     // Relasi ke User (Penyewa)
