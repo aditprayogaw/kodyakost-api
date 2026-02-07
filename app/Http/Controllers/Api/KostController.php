@@ -12,7 +12,10 @@ class KostController extends Controller
     public function index(Request $request)
     {   
         // 1. Mulai query dengan eager loading
-        $query = Kost::with('rooms.facilities', 'rooms.images', 'user')->where('is_verified', true);
+        $query = Kost::with('rooms.facilities', 'rooms.images', 'user')
+            ->withAvg('reviews', 'rating') // Menghasilkan field: reviews_avg_rating
+            ->withCount('reviews')         // Menghasilkan field: reviews_count
+            ->where('is_verified', true);
 
         // 2. Search berdasarkan Nama Kos atau Alamat (Pencarian Kata Kunci)
         if ($request->has('search')) {
@@ -60,12 +63,13 @@ class KostController extends Controller
 
     public function show($id)
     {
-        // 1. Cari kos berdasarkan ID, sekalian load relasi room, image, dan fasilitas
-        $kost = Kost::with('rooms.images', 'rooms.facilities', 'user')->findOrFail($id);
+        $kost = Kost::with('rooms.images', 'rooms.facilities', 'user')
+            ->withAvg('reviews', 'rating')
+            ->withCount('reviews')
+            ->findOrFail($id);
 
-        // 2. Tambahkan view counter +1
-        // Fungsi increment() adalah cara cepat Laravel update database tanpa ribet
         $kost->increment('views');
+        
         return new KostResource($kost);
     }
 }
