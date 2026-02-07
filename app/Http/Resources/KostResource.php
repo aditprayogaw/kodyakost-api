@@ -20,7 +20,7 @@ class KostResource extends JsonResource
             'description' => $this->description,
             'thumbnail' => $this->thumbnail, 
             
-            // --- [1. STATISTIK (WAJIB ADA)] ---
+            // --- [1. STATISTIK] ---
             // Ini diambil dari controller (withAvg & withCount)
             'rating' => round($this->reviews_avg_rating ?? 0, 1), // Contoh: 4.5
             'total_reviews' => $this->reviews_count ?? 0,         // Contoh: 15
