@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://ui-avatars.com/api/?name=Kodya+Kost&background=0D8ABC&color=fff&size=128&rounded=true" alt="KodyaKost Logo">
-</p>
-
 <h1 align="center">KodyaKost - Backend API</h1>
 
 <p align="center">
@@ -65,7 +61,7 @@ Pastikan Anda telah menginstal:
 
 ### 2. Clone Repository
 bash
-git clone [https://github.com/username-kamu/kodyakost-api.git](https://github.com/username-kamu/kodyakost-api.git)
+git clone https://github.com/aditprayogaw/kodyakost-api.git
 cd kodyakost-api
 
 3. Install Dependencies
