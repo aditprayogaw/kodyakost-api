@@ -12,6 +12,10 @@
   <img src="https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL">
 </p>
 
+<p align="center">
+  <a href="https://kodyakost.adityavisual.my.id/"><h2>Lihat Website KodyaKost</a>
+</p>
+
 ---
 
 ## 📖 Tentang Proyek
