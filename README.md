@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="https://kodyakost.adityavisual.my.id/"><h2>Lihat Website KodyaKost</a>
+  <a href="https://kodyakost.adityavisual.my.id/"><h2>Lihat Website KodyaKost : https://kodyakost.adityavisual.my.id/</a>
 </p>
 
 ---
